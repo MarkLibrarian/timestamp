@@ -39,8 +39,9 @@ app.get("/api/timestamp/:dateTime", function (req, res) {
   if (new Date(dateTime) > 0) {
     /* if ((dateTime = [/\d{13}/]))*/
     let parsed = new Date(dateTime);
+
     let parsedTime = new Date(parsed).getTime();
-    let e = new Date(parsed).toLocaleString("en-UK");
+    let e = new Date(parsed).toUTCString();
     let f = new Date(dateTime).toLocaleString("en-UK");
     let utcDate = dateTime.toUTC;
     console.log(e);
