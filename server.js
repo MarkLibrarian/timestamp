@@ -38,15 +38,13 @@ app.get("/api/timestamp/([0-9])", function (req, res) {
 let errorMessage = "Invalid Date";
 app.get("/api/timestamp/:dateTime", function (req, res) {
   let dateTime = req.params.dateTime;
+
   let parsed = new Date(dateTime);
+  let parsedTime = new Date(parsed).getTime();
   console.log(dateTime);
-  if (parsed == "Invalid Date") {
-    res.json({ error: "Invalid Date" });
-  }
-  if (new Date(dateTime) > 1000) {
+  if (parseInt(parsedTime) > 10000) {
     /* if ((dateTime = [/\d{13}/]))*/
 
-    let parsedTime = new Date(parsed).getTime();
     let e = new Date(parsed).toUTCString();
     let f = new Date(dateTime).toLocaleString("en-UK");
     let utcDate = dateTime.toUTC;
@@ -55,6 +53,10 @@ app.get("/api/timestamp/:dateTime", function (req, res) {
     {
       res.json({ unix: parsedTime, utc: e });
     }
+  }
+
+  if (parsed == "Invalid Date") {
+    res.json({ error: "Invalid Date" });
   } else {
     let dateTime2 = req.params.dateTime;
     console.log(dateTime2);
