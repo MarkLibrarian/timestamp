@@ -50,7 +50,9 @@ app.get("/api/timestamp/:dateTime", function (req, res) {
     }
   } else {
     let dateTime2 = req.params.dateTime;
-    let dateTime3 = dateTime2.substring(0 - 8);
+    console.log(dateTime2);
+
+    let dateTime3 = dateTime2.substring(0, 10);
     console.log(dateTime3);
     dateObj = new Date(dateTime3 * 1000);
     utcString = dateObj.toUTCString();
