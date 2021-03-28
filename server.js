@@ -58,6 +58,7 @@ app.get("/api/timestamp/:dateTime", function (req, res) {
   } else {
     if (parsed.toString() !== "Invalid Date") {
       let dateTimeUTC = new Date(dateTime).getTime();
+      let dateTimeUTC2 = new Date(dateTimeUTC).toUTCString();
       /*
       let dateTime2 = req.params.dateTime;
       console.log(dateTime2);
@@ -68,7 +69,7 @@ app.get("/api/timestamp/:dateTime", function (req, res) {
       utcString = dateString.toUTCString();
       console.log(utcString);
       time = utcString.slice(-11, -4);*/
-      res.json({ unix: dateTimeUTC, utc: dateTime });
+      res.json({ unix: dateTimeUTC, utc: dateTimeUTC2 });
     } else {
       res.json({ error: "Invalid Date" });
     }
