@@ -28,36 +28,22 @@ app.get("/api/timestamp", function (req, res) {
   res.json({ unix: unixTime, utc: utcTime });
 });
 
-/*app.get("/api/timestamp/([a-z])", function (req, res) {
-  res.json({ unix: e });
-});
-app.get("/api/timestamp/([0-9])", function (req, res) {
-  res.json({ utc: d });
-});
-*/
-let errorMessage = "Invalid Date";
 app.get("/api/timestamp/:dateTime", function (req, res) {
   let dateTime = req.params.dateTime;
 
   let parsed = new Date(dateTime);
   let parsedTime = new Date(parsed).getTime();
-  console.log(dateTime);
-  if (parseInt(parsedTime) > 10000) {
+  let parsedTime2 = dateTime;
+  console.log(parsedTime2);
+  let parsedTime3 = new Date(parsedTime2);
+  if (parsedTime2 > 10000) {
     /* if ((dateTime = [/\d{13}/]))*/
 
-    let e = new Date(parsed).toUTCString();
+    let e = parsed.toUTCString();
     let f = new Date(dateTime).toLocaleString("en-UK");
     let utcDate = dateTime.toUTC;
     console.log(e);
     console.log(f);
-    {
-      res.json({ unix: parsedTime, utc: e });
-    }
-  }
-
-  if (parsed == "Invalid Date") {
-    res.json({ error: "Invalid Date" });
-  } else {
     let dateTime2 = req.params.dateTime;
     console.log(dateTime2);
     dateTime4 = JSON.parse(dateTime2);
@@ -65,11 +51,30 @@ app.get("/api/timestamp/:dateTime", function (req, res) {
     console.log(dateTime3);
     dateObj = new Date(dateTime3 * 1000);
     utcString = dateObj.toUTCString();
-    console.log(utcString);
-    time = utcString.slice(-11, -4);
-    res.json({ unix: dateTime4, utc: utcString });
+    {
+      res.json({ unix: dateTime, utc: utcString });
+      /* res.json({ unix: parsedTime, utc: e });*/
+    }
+  } else {
+    if (parsed.toString() !== "Invalid Date") {
+      let dateTimeUTC = new Date(dateTime).getTime();
+      /*
+      let dateTime2 = req.params.dateTime;
+      console.log(dateTime2);
+      dateTime4 = JSON.parse(dateTime2);
+      let dateTime3 = dateTime2.substring(0, 10);
+      console.log(dateTime3);
+      dateObj = new Date(dateTime3 * 1000);
+      utcString = dateString.toUTCString();
+      console.log(utcString);
+      time = utcString.slice(-11, -4);*/
+      res.json({ unix: dateTimeUTC, utc: dateTime });
+    } else {
+      res.json({ error: "Invalid Date" });
+    }
   }
 });
+
 /*app.get("/api/timestamp/([0-9])", function (req, res) {
   res.json({ utc: d });
 });
