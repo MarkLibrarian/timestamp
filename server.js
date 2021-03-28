@@ -17,13 +17,14 @@ app.use(express.static("public"));
 app.get("/", function (req, res) {
   res.sendFile(__dirname + "/views/index.html");
 });
-
+unixTime = new Date().getTime();
+utcTime = new Date().toUTCString();
 // your first API endpoint...
 app.get("/api/hello", function (req, res) {
   res.json({ greeting: "hello API" });
 });
 app.get("/api/timestamp", function (req, res) {
-  res.json({ unix: e, utc: d });
+  res.json({ unix: unixTime, utc: utcTime });
 });
 
 /*app.get("/api/timestamp/([a-z])", function (req, res) {
