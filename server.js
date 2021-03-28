@@ -33,10 +33,12 @@ app.get("/api/timestamp/:dateTime", function (req, res) {
 
   let parsed = new Date(dateTime);
   let parsedTime = new Date(parsed).getTime();
+
   let parsedTime2 = dateTime;
   console.log(parsedTime2);
   let parsedTime3 = new Date(parsedTime2);
   if (parsedTime2 > 10000) {
+    parsedTimeint = parseInt(dateTime);
     /* if ((dateTime = [/\d{13}/]))*/
 
     let e = parsed.toUTCString();
@@ -52,12 +54,12 @@ app.get("/api/timestamp/:dateTime", function (req, res) {
     dateObj = new Date(dateTime3 * 1000);
     utcString = dateObj.toUTCString();
     {
-      res.json({ unix: dateTime, utc: utcString });
+      res.json({ unix: parsedTimeint, utc: utcString });
       /* res.json({ unix: parsedTime, utc: e });*/
     }
   } else {
     if (parsed.toString() !== "Invalid Date") {
-      let dateTimeUTC = new Date(dateTime).getTime();
+      let dateTimeUTC = new Date(dateTime).valueOf();
       let dateTimeUTC2 = new Date(dateTimeUTC).toUTCString();
       /*
       let dateTime2 = req.params.dateTime;
