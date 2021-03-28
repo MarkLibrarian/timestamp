@@ -24,6 +24,16 @@ utcTime = Date();
 app.get("/api/hello", function (req, res) {
   res.json({ greeting: "hello API" });
 });
+
+app.get("/api/whoami", function (req, res) {
+  const requestIp = require("request-ip");
+  const clientIp = requestIp.getClientIp(req);
+  var userAgent = req.headers["user-agent"];
+  var userLang = req.headers["accept-language"].split(";")[0];
+  /* res.json({ ipaddress: clientIp });*/
+  res.json({ ipaddress: clientIp, language: userLang, software: userAgent });
+});
+
 app.get("/api/timestamp", function (req, res) {
   res.json({ unix: unixTime, utc: utcTime });
 });
