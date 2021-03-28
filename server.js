@@ -17,8 +17,9 @@ app.use(express.static("public"));
 app.get("/", function (req, res) {
   res.sendFile(__dirname + "/views/index.html");
 });
-unixTime = new Date().getTime();
-utcTime = new Date().toUTCString();
+var timeNow = new Date();
+unixTime = timeNow.getTime();
+utcTime = timeNow.toUTCString();
 // your first API endpoint...
 app.get("/api/hello", function (req, res) {
   res.json({ greeting: "hello API" });
