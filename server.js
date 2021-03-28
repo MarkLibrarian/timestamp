@@ -58,7 +58,7 @@ app.get("/api/timestamp/:dateTime", function (req, res) {
     utcString = dateObj.toUTCString();
     console.log(utcString);
     time = utcString.slice(-11, -4);
-    res.json({ unix: dateTime3, utc: utcString });
+    res.json({ unix: dateTime2, utc: utcString });
   } /*else {
     res.json({ unix: e });
   }*/
