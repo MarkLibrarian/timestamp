@@ -18,8 +18,8 @@ app.get("/", function (req, res) {
   res.sendFile(__dirname + "/views/index.html");
 });
 var timeNow = new Date();
-unixTime = timeNow.getTime();
-utcTime = timeNow.toUTCString();
+unixTime = Date.now();
+utcTime = Date();
 // your first API endpoint...
 app.get("/api/hello", function (req, res) {
   res.json({ greeting: "hello API" });
@@ -41,16 +41,8 @@ app.get("/api/timestamp/:dateTime", function (req, res) {
     parsedTimeint = parseInt(dateTime);
     /* if ((dateTime = [/\d{13}/]))*/
 
-    let e = parsed.toUTCString();
-    let f = new Date(dateTime).toLocaleString("en-UK");
-    let utcDate = dateTime.toUTC;
-    console.log(e);
-    console.log(f);
     let dateTime2 = req.params.dateTime;
-    console.log(dateTime2);
-    dateTime4 = JSON.parse(dateTime2);
     let dateTime3 = dateTime2.substring(0, 10);
-    console.log(dateTime3);
     dateObj = new Date(dateTime3 * 1000);
     utcString = dateObj.toUTCString();
     {
