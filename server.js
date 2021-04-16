@@ -1,18 +1,28 @@
-// server.js
 // where your node app starts
 
 // init project
+require("dotenv").config();
+const ejs = require("ejs");
+const path = require("path");
 var express = require("express");
 var app = express();
-
+const port = process.env.PORT || 4000;
 // enable CORS (https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
 // so that your API is remotely testable by FCC
 var cors = require("cors");
 app.use(cors({ optionsSuccessStatus: 200 })); // some legacy browsers choke on 204
-
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static("public"));
+const bodyParser = require("body-parser");
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+var jsonParser = bodyParser.json();
 
+const mongoose = require("mongoose");
+mongoose.connect(process.env.DB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 // http://expressjs.com/en/starter/basic-routing.html
 app.get("/", function (req, res) {
   res.sendFile(__dirname + "/views/index.html");
@@ -80,11 +90,63 @@ app.get("/api/timestamp/:dateTime", function (req, res) {
   }
 });
 
+app.use(express.urlencoded({ extended: true }));
+app.set("view engine", "ejs");
 /*app.get("/api/timestamp/([0-9])", function (req, res) {
   res.json({ utc: d });
 });
 */
 
-var listener = app.listen(process.env.PORT, function () {
+app.use(express.static("public"));
+const Schema = mongoose.Schema;
+
+const urlSchema = new Schema({
+  shortURL: { type: "String", required: true },
+  longURL: { type: "String", required: true },
+});
+
+const Url = mongoose.model("Url", urlSchema);
+app.post("/api/url/", async (req, res) => {
+  await Url.create(req.body, (error) => {
+    res.redirect("/");
+  });
+  console.log(req.body);
+});
+
+app.get("/api/url/:_id", async (req, res) => {
+  console.log("hell0");
+  console.log(req.params);
+});
+app.get("/api/url/", jsonParser, function (req, res) {
+  res.sendFile(__dirname + "/views/shorturl.html");
+});
+app.get("/api/list", jsonParser, async (req, res) => {
+  const urls = await Url.find({});
+  res.render("list", { urls: urls });
+});
+/*app.post("/api/url/", function (req, res) {
+  console.log("success post");
+  //var url = req.body.url;
+  res.json({ success: "url" });
+});*/
+
+/*var url1 = new Url({ shortURL: "24", longURL: "bbc.co.uk" });
+// save model to database
+url1.save(function (err, url) {
+  if (err) return console.error(err);
+  console.log(url.shortURL + " saved to db.");
+});
+const query = Url.where({ shortURL: "24" });
+*/
+/*query.findOne(function (err, url) {
+  if (err) return handleError(err);
+  if (url) {
+    console.log(url.shortURL, url.longURL);
+    console.log("deleted");
+    // doc may be null if no document matched
+  }
+});
+query.deleteOne({ shortURL: "24" });*/
+var listener = app.listen(port, function () {
   console.log("Your app is listening on port " + listener.address().port);
 });
